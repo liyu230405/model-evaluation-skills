@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VLA 模型对比 · 算数核验</title>
+<link rel="stylesheet" href="web/style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>VLA 模型对比 · 算数核验</h1>
+    <p class="sub">导入评测表 → 选基线与新模型 → 程序算出全部指标。用来核对报告里的数字，不生成报告。</p>
+  </div>
+  <div id="selftest" class="badge">引擎自检中…</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>① 导入评测表</h2>
+    <p class="note">直接拖入下载的《基模测试记录》大表（白盒）和《基模黑盒场景测试记录》大表（黑盒），再在下面选两个模型；也兼容一个表一个模型的旧长表。表格只在本浏览器内解析计算，不会上传到服务器。
+      <a href="templates/评测数据模板.xlsx" download>空白模板</a> · <a href="#" id="loadExample">载入示例</a></p>
+    <div id="slots"></div>
+    <div class="toolbar"><button id="addSlot" class="ghost">＋ 再加一个表</button></div>
+  </section>
+
+  <section id="msgs" aria-live="polite"></section>
+
+  <section id="npicker" class="card" hidden>
+    <h2>② 从大表里选基线模型与新模型</h2>
+    <p class="note">每个 sheet 是一个模型（已去掉日期前缀与「FT测试记录-」）。白盒、黑盒两本表里名字不同时分别选；差值 = 新模型 − 基线模型。</p>
+    <div class="pair"><b>基线模型</b>
+      <label>白盒 sheet <select id="nBaseW"></select></label><label>黑盒 sheet <select id="nBaseB"></select></label></div>
+    <div class="pair"><b>新模型</b>
+      <label>白盒 sheet <select id="nCompW"></select></label><label>黑盒 sheet <select id="nCompB"></select></label></div>
+    <div class="toolbar"><button id="nApply">计算</button><span id="nErr" class="msg err" hidden></span></div>
+  </section>
+
+  <section id="picker" class="card" hidden>
+    <h2>② 选择基线模型与新模型</h2>
+    <p class="note">识别到 <b id="modelCount">0</b> 个模型：<span id="modelList"></span>。差值 = 新模型 − 基线模型。可加多组。</p>
+    <div id="pairs"></div>
+    <div class="toolbar">
+      <button id="addPair" class="ghost">＋ 添加一组对比</button>
+      <button id="applyPairs">计算</button>
+      <span id="pairErr" class="msg err" hidden></span>
+    </div>
+  </section>
+
+  <section id="result" hidden>
+    <div class="toolbar card">
+      <label>查看对比组 <select id="cmpSel"></select></label>
+      <span id="fp" class="mono"></span>
+      <span class="spacer"></span>
+      <button id="dlXlsx">下载 Excel 公式复核表</button>
+      <button id="dlJson" class="ghost">下载结果 JSON</button>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="core" aria-selected="true">核心指标</button>
+      <button role="tab" data-tab="cases">用例明细</button>
+      <button role="tab" data-tab="skills">Skill 判定</button>
+      <button role="tab" data-tab="tags">问题标签</button>
+      <button role="tab" data-tab="check">③ 核对报告数字</button>
+    </nav>
+
+    <div id="tab-core" class="tab"></div>
+    <div id="tab-cases" class="tab" hidden></div>
+    <div id="tab-skills" class="tab" hidden></div>
+    <div id="tab-tags" class="tab" hidden></div>
+    <div id="tab-check" class="tab" hidden>
+      <div class="card">
+        <p>上传报告（.md）或粘贴报告全文。程序把报告里的每个数字与上面算出的全部统计量比对，<strong>找不到出处的数字</strong>会列出来，需要人工确认。</p>
+        <div class="toolbar">
+          <button id="uploadMd">上传报告 .md</button>
+          <input id="mdFile" type="file" accept=".md,.markdown,.txt" hidden>
+          <span id="mdName" class="note"></span>
+        </div>
+        <textarea id="polished" rows="14" placeholder="或在此粘贴报告 Markdown…" aria-label="报告全文"></textarea>
+        <button id="runCheck">核对数字</button>
+        <div id="checkOut"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>口径：用例级聚合 → 两模型用例级差值 → 双侧配对 t；ID×OOD 落差用 Welch 两样本 t。复核表用 Excel 原生公式重算，verify.py 用 scipy 重算。</footer>
+
+<script src="engine/math.js"></script>
+<script src="engine/xlsx.js"></script>
+<script src="engine/native.js"></script>
+<script src="engine/analyze.js"></script>
+<script src="engine/report.js"></script>
+<script src="engine/excel.js"></script>
+<script src="web/app.js"></script>
+</body>
+</html>

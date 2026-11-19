@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "algorithm": "sha256",
+  "note": "File fingerprints protect calculation and rendering logic.",
+  "locked": [
+    "engine/math.js",
+    "engine/analyze.js",
+    "engine/native.js",
+    "engine/report.js",
+    "engine/excel.js",
+    "verify.py",
+    "crosscheck.py"
+  ],
+  "rendererPattern": "engine/report_*.js（新增渲染器需 --relock 登记）",
+  "files": {
+    "engine/math.js": "38291bf53b81cd89769621dc0d0c2b9d485cb8ee2fadef2c86bd1db303663601",
+    "engine/analyze.js": "a8ac900ecd3d028fabd8b4809ebc9c28b7b8ce4e28303f8fbca51a793086175c",
+    "engine/native.js": "221af6a0b5ff8516582e1984b835414707c0d38813a687c2cd7119fb4e7a85c8",
+    "engine/report.js": "e35cd5be2056acf61aff2f5d2c85d928ab472095fd72f5ee8f188d0ad2109164",
+    "engine/excel.js": "ffb0ede5427c13ea3c29ecf04a8fef31372da6088aacc61dc251170435598c7b",
+    "verify.py": "dc29d17bc051d8816e77da033d649ef57172b2e3676995a119f0f02e89984dba",
+    "crosscheck.py": "97cb13c15f138e4fd63a3d7899816bd8654c533e0e7413725eaa107a7fd32d6f",
+    "engine/report_n.js": "c3e4949b02cf3da9d8f6530bc1092d8d67e6f32519bd85316666facc9600c908",
+    "engine/report_single.js": "23843db792e9e3938236301fc04d5321867d8c6573c064c95aaa487fbcadb5b6"
+  },
+  "history": []
+}
